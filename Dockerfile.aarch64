@@ -32,8 +32,9 @@ RUN \
   echo "**** install thelounge ****" && \
   yarn install && \
   NODE_ENV=production yarn build && \
-  yarn link && \
   yarn cache clean && \
+  chmod +x /app/thelounge/index.js && \
+  ln -sf /app/thelounge/index.js /usr/local/bin/thelounge && \
   printf "Linuxserver.io version: ${VERSION}\nBuild-date: ${BUILD_DATE}" > /build_version && \
   echo "**** cleanup ****" && \
   apk del --purge \
