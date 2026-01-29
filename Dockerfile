@@ -17,10 +17,13 @@ RUN \
     build-base \
     git \
     py3-setuptools \
-    python3-dev && \
-  echo "**** install runtime packages ****" && \
+    python3-dev \
+    curl && \
+  echo "**** install Node.js and corepack ****" && \
   apk add --no-cache \
-    yarn && \
+    nodejs npm && \
+  npm install -g corepack \
+  corepack enable && \
   echo "**** clone @tetrahydroc/thelounge ****" && \
   git clone --depth 1 https://github.com/tetrahydroc/thelounge.git /app/thelounge && \
   cd /app/thelounge && \
@@ -30,7 +33,7 @@ RUN \
   yarn install && \
   NODE_ENV=production yarn build && \
   yarn link && \
-  yarn --non-interactive cache clean && \
+  yarn cache clean && \
   printf "Linuxserver.io version: ${VERSION}\nBuild-date: ${BUILD_DATE}" > /build_version && \
   echo "**** cleanup ****" && \
   apk del --purge \
